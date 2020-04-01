@@ -79,10 +79,10 @@ This package provides two main executables:
 Example of calibration output. In red is reported the tag detection from camera data, in blue the reprojection of the lidar detection.
 
 ##### Reprojected detection from initial guess:
-![image](https://drive.google.com/uc?export=view&id=1HtPv6uiNzdGm6y_XiO8feCYP_3d9uZhU)
+![image](example_reprojection_error_pre.png)
 
 ##### Reprojected detection from estimated transform:
-![image](https://drive.google.com/uc?export=view&id=1KtCJJ7RPVeGEWyOnrQJkSAyVx5cBtIBb)
+![image](example_reprojection_error_post.png)
 
 ## Contributors
 * Irvin Aloise

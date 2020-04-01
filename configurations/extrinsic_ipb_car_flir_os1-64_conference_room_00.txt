@@ -1,0 +1,2 @@
+## final estimate [x y z qx qy qz]
+ESTIMATE 0.03801 -0.43671 -0.54845 0.49872 0.47917 -0.50923 

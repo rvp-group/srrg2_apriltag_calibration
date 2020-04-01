@@ -1,0 +1,3 @@
+add_subdirectory(apriltag3)
+add_subdirectory(srrg_apriltag_detection)
+add_subdirectory(srrg_apriltag_calibration)

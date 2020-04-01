@@ -1,0 +1,248 @@
+"SimpleTerminationCriteria" { 
+  "#id" : 1, 
+  "name" : "solver_termination_crit", 
+
+  // ratio of decay of chi2 between iteration
+  "epsilon" : 0.0001
+ }
+
+"RobustifierCauchy" { 
+  "#id" : 2, 
+  "name" : "cauchy_kernel", 
+
+  // threshold of chi after which the kernel is active
+  "chi_threshold" : 10
+ }
+
+"MessageROSBagSource" { 
+  "#id" : 3, 
+  "name" : "ros_source", 
+
+  // file to read
+  "filename" : "", 
+  "topics" : [ "/os1_cloud_node/points", "/camera/image_rect", "/camera/camera_info" ], 
+
+  // verbose
+  "verbose" : 0
+ }
+
+"MessageSortedSource" { 
+  "#id" : 4, 
+  "name" : "sorter", 
+
+  // the source from where this filter reads
+  "source" : { 
+    "#pointer" : 3
+   }, 
+
+  // lag time to sort messages
+  "time_interval" : 1
+ }
+
+"MessageSynchronizedSource" { 
+  "#id" : 5, 
+  "name" : "sync", 
+
+  // name of the frame in the message pack
+  "output_frame_id" : "pack_frame_id", 
+
+  // name of the topic in the message pack
+  "output_topic" : "pack", 
+
+  // the source from where this filter reads
+  "source" : { 
+    "#pointer" : 4
+   }, 
+
+  // interval for the messages to be sinchronized
+  "time_interval" : 0.1, 
+  "topics" : [ "/os1_cloud_node/points", "/camera/image_rect", "/camera/camera_info" ]
+ }
+
+"PointIntensity3fProjectorOS1_64" { 
+  "#id" : 6, 
+  "name" : "projector_os1_64", 
+
+  // cols of the canvas
+  "canvas_cols" : 721, 
+
+  // rows of the canvas
+  "canvas_rows" : 1, 
+
+  // horizontal ending angle for the spherical projection [rad]
+  "horizontal_end_angle" : 0, 
+
+  // horizontal starting angle for the spherical projection [rad]
+  "horizontal_start_angle" : 6.28319, 
+
+  // number of columns in the projected image of the lidar scan
+  "num_columns" : 1024, 
+
+  // maximum range [m]
+  "range_max" : 15, 
+
+  // minimum range [m]
+  "range_min" : 0.3
+ }
+
+"RobustifierPolicyByType" { 
+  "#id" : 7, 
+  "name" : "robustifier_policy", 
+
+  // name of the class of the matching factor
+  "factor_class_name" : "SE3ProjectiveErrorFactorCorrespondenceDriven", 
+
+  // robustifier matching the rule
+  "robustifier" : { 
+    "#pointer" : 2
+   }
+ }
+
+"Solver" { 
+  "#id" : 8, 
+  "name" : "solver", 
+
+  // pointer to the optimization algorithm (GN/LM or others)
+  "algorithm" : { 
+    "#pointer" : 9
+   }, 
+
+  // pointer to linear solver used to compute Hx=b
+  "linear_solver" : { 
+    "#pointer" : 10
+   }, 
+  "max_iterations" : [ 25 ], 
+
+  // Minimum mean square error variation to perform global optimization
+  "mse_threshold" : -1, 
+  "robustifier_policies" : [ { 
+  "#pointer" : 7
+ } ], 
+
+  // term criteria ptr, if 0 solver will do max iterations
+  "termination_criteria" : { 
+    "#pointer" : 1
+   }
+ }
+
+"SimpleTerminationCriteria" { 
+  "#id" : 11, 
+
+  // ratio of decay of chi2 between iteration
+  "epsilon" : 0.001
+ }
+
+"IterationAlgorithmGN" { 
+  "#id" : 9, 
+
+  // damping factor, the higher the closer to gradient descend. Default:0
+  "damping" : 0
+ }
+
+"MessageFileSource" { 
+  "#id" : 12, 
+  "name" : "boss_source", 
+
+  // file to read
+  "filename" : ""
+ }
+
+"SparseBlockLinearSolverCholmodFull" { 
+  "#id" : 10
+ }
+
+"ApriltagCalibrator36h11_OS164" { 
+  "#id" : 13, 
+  "name" : "calibrator_os1_64", 
+  "inital_guess" : [ 0, -0.38618, -0.55, 0.5, 0.5, -0.5 ], 
+
+  // lidar projector
+  "lidar_projector" : { 
+    "#pointer" : 6
+   }, 
+
+  // lidar intensity image normalization value
+  "max_intensity" : 250, 
+
+  // LS solver as usual
+  "solver" : { 
+    "#pointer" : 8
+   }, 
+
+  // camera [rectified] images topic
+  "topic_camera" : "/camera/image_rect", 
+
+  // camera info topic
+  "topic_camera_info" : "/camera/camera_info", 
+
+  // lidar point cloud topic
+  "topic_lidar" : "/os1_cloud_node/points"
+ }
+
+"Solver" { 
+  "#id" : 14, 
+
+  // pointer to the optimization algorithm (GN/LM or others)
+  "algorithm" : { 
+    "#pointer" : 15
+   }, 
+
+  // pointer to linear solver used to compute Hx=b
+  "linear_solver" : { 
+    "#pointer" : 16
+   }, 
+  "max_iterations" : [  ], 
+
+  // Minimum mean square error variation to perform global optimization
+  "mse_threshold" : -1, 
+  "robustifier_policies" : [  ], 
+
+  // term criteria ptr, if 0 solver will do max iterations
+  "termination_criteria" : { 
+    "#pointer" : 17
+   }
+ }
+
+"SimpleTerminationCriteria" { 
+  "#id" : 17, 
+
+  // ratio of decay of chi2 between iteration
+  "epsilon" : 0.001
+ }
+
+"IterationAlgorithmGN" { 
+  "#id" : 15, 
+
+  // damping factor, the higher the closer to gradient descend. Default:0
+  "damping" : 0
+ }
+
+"SparseBlockLinearSolverCholmodFull" { 
+  "#id" : 16
+ }
+
+"PointIntensity3fProjectorOS1_64" { 
+  "#id" : 18, 
+
+  // cols of the canvas
+  "canvas_cols" : 721, 
+
+  // rows of the canvas
+  "canvas_rows" : 1, 
+
+  // horizontal ending angle for the spherical projection [rad]
+  "horizontal_end_angle" : -3.14159, 
+
+  // horizontal starting angle for the spherical projection [rad]
+  "horizontal_start_angle" : 3.14159, 
+
+  // number of columns in the projected image of the lidar scan
+  "num_columns" : 870, 
+
+  // maximum range [m]
+  "range_max" : 20, 
+
+  // minimum range [m]
+  "range_min" : 0.3
+ }
+

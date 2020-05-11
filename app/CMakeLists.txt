@@ -14,8 +14,8 @@ target_link_libraries(app_offline_calibration
   ${catkin_LIBRARIES})
   
 #ia just to show the result of the calibration
-add_executable(test_lidar_camera_projection test_lidar_camera_projection.cpp)
-target_link_libraries(test_lidar_camera_projection
+add_executable(app_test_lidar_camera_projection test_lidar_camera_projection.cpp)
+target_link_libraries(app_test_lidar_camera_projection
   srrg2_apriltag_detection_library
   srrg2_apriltag_calibration_library
   ${catkin_LIBRARIES})

@@ -8,4 +8,6 @@ target_link_libraries(srrg2_apriltag_calibration_library
   srrg2_solver_core_library
   srrg2_solver_linear_solvers_library
   srrg2_solver_types3d_library
-  srrg2_solver_projective_library)
+  srrg2_solver_projective_library
+  srrg2_messages_library
+  )

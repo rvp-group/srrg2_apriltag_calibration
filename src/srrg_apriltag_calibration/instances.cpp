@@ -13,8 +13,8 @@ namespace srrg2_apriltag_calibration {
     srrg2_core::point_cloud_registerTypes();
     srrg2_solver::linear_solver_registerTypes();
     srrg2_solver::solver_registerTypes();
-    srrg2_solver::projective_registerTypes();
-    srrg2_solver::registerTypes3D();
+    srrg2_solver::variables_and_factors_projective_registerTypes();
+    srrg2_solver::variables_and_factors_3d_registerTypes();
     srrg2_apriltagDetector_registerTypes();
 
     // ia actual classes

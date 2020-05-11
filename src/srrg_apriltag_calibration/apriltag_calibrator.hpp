@@ -205,7 +205,7 @@ namespace srrg2_apriltag_calibration {
     point_cloud_transf.resize(_current_lidar_cloud.size());
     _current_lidar_cloud.copyFieldTo<0, 0, srrg2_core::Point3fVectorCloud>(point_cloud_transf);
     canvas_->pushColor();
-    canvas_->setColor(srrg2_core::ColorPalette::color3fCyan());
+    canvas_->setColor(srrg2_core::ColorPalette::color3fLightGray());
     canvas_->pushPointSize();
     canvas_->setPointSize(1.f);
     canvas_->putPoints(point_cloud_transf);
@@ -214,7 +214,7 @@ namespace srrg2_apriltag_calibration {
 
     // ia draw the current detections in lidar
     canvas_->pushColor();
-    canvas_->setColor(srrg2_core::ColorPalette::color3fViolet());
+    canvas_->setColor(srrg2_core::ColorPalette::color3fRed());
     canvas_->pushPointSize();
     canvas_->setPointSize(5.f);
     for (size_t k = 0; k < _current_calibration_observations.size(); ++k) {
@@ -402,9 +402,9 @@ namespace srrg2_apriltag_calibration {
     const srrg2_core::Vector3f& lidar_coords =
       _current_lidar_cloud_projected.at(lidar_tag_.center().y(), lidar_tag_.center().x())
         .source_it->coordinates();
-    p_lidar.coordinates()             = lidar_coords;
+    p_lidar.coordinates() = lidar_coords;
     obs_->lidar_points.emplace_back(p_lidar);
-    
+
     p_lidar_transformed.coordinates() = _initial_guess * lidar_coords;
     obs_->lidar_points_transf.emplace_back(p_lidar_transformed);
 

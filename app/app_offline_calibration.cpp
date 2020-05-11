@@ -15,6 +15,7 @@
 
 const std::string exe_name("app_offline_calibration");
 #define LOG std::cerr << exe_name + "|"
+std::atomic<bool> step{false};
 
 using namespace srrg2_core;
 using namespace srrg2_core_ros;
@@ -52,6 +53,8 @@ int main(int argc, char** argv) {
     &cmd, "sn", "source-name", "source name in the config", "ros_source");
   ArgumentFlag param_generate_config(
     &cmd, "j", "generate-config", "true to generate default config", false);
+  ArgumentFlag param_step(
+    &cmd, "s", "step", "if true than the bag is processed in a step-by-step fashion", false);
   cmd.parse();
 
   if (param_generate_config.isSet()) {
@@ -70,6 +73,9 @@ int main(int argc, char** argv) {
     throw std::runtime_error(exe_name + "|ERROR, invalid config file [ " +
                              param_config_filename.value() + " ]");
   }
+
+  // ia step-by-step
+  step = param_step.isSet();
 
   // ia start the thing
   QApplication qapp(argc, argv);
@@ -119,7 +125,13 @@ void processFn(const ViewerCanvasPtr& canvas_,
     // ia draw
     calibrator->draw(canvas_);
     canvas_->flush();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    if (step) {
+      LOG << "press [ " << FG_YELLOW("ENTER") << " ] to continue\n";
+      std::this_thread::sleep_for(std::chrono::milliseconds(5));
+      std::cin.get();
+      std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
   }
   source->close();
 
